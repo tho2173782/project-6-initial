@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
 import java.io.BufferedReader;
@@ -12,6 +13,7 @@ import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Component
 public class DictionaryReference {
 
     private static final Logger logger = LoggerFactory.getLogger(DictionaryReference.class.getName());
@@ -37,8 +39,8 @@ public class DictionaryReference {
         StopWatch sw = new StopWatch();
         sw.start();
 
-        InputStream inputStream = ClassLoader.getSystemResourceAsStream("dictionary.json");
-        //InputStream inputStream = DictionaryReference.class.getClassLoader().getResourceAsStream("dictionary.json");
+        //InputStream inputStream = ClassLoader.getSystemResourceAsStream("dictionary.json");
+        InputStream inputStream = DictionaryReference.class.getClassLoader().getResourceAsStream("dictionary.json");
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
@@ -61,5 +63,8 @@ public class DictionaryReference {
 
     }
 
+    public static Map<String, String> getDictionary() {
+        return DictionaryReference.dictionary;
+    }
 
 }
